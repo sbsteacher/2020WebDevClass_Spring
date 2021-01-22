@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div id="centerContainer">		
 	<div>
-		<form id="frm" action="/user/joinProc.korea" method="post" onsubmit="return joinChk();">
+		<form id="frm" action="/user/join" method="post" onsubmit="return joinChk();">
 			<div><input type="text" name="user_id" placeholder="id" required></div>
 			<div><input type="password" name="user_pw" placeholder="password" required></div>
 			<div><input type="password" name="user_pw_chk" placeholder="password check"></div>
