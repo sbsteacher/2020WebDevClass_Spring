@@ -36,6 +36,8 @@
 				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
+		<beans:property name="preparerFactoryClass" 
+			value="org.springframework.web.servlet.view.tiles3.Spring Bean Preparer Factory"/>
 	</beans:bean>
 	
 	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
