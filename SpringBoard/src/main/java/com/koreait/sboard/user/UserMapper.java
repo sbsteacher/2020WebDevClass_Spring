@@ -9,7 +9,8 @@ import com.koreait.sboard.model.UserEntity;
 
 @Mapper
 public interface UserMapper {
-	List<UserEntity> selUserList();
-	void insUser(UserEntity param);
+	
+	UserEntity selUser(UserEntity param);
+	int insUser(UserEntity param);
 }
 

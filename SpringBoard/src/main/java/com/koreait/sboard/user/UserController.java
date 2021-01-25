@@ -19,20 +19,23 @@ public class UserController {
 	private UserService service;
 	
 	@GetMapping("/login")
-	public void login(Model model) {
-		model.addAttribute("list", service.selUserList());
-	}
+	public void login() {}
 	
 	@PostMapping("/login")
-	public void loginProc(UserEntity param, HttpSession hs) {
+	public String loginProc(UserEntity param, HttpSession hs) {
+		int result = service.login(param, hs);
 		
+		if(result == 1) {
+			return "redirect:/board/home";
+		}
+		return null;
 	}
 	
 	@RequestMapping("/join")
-	public void join(Model model) {}
+	public void join() {}
 	
 	@PostMapping("/join")
-	public String join(UserEntity param) {		 
+	public String join(UserEntity param) {	 
 		service.insUser(param);
 		return "redirect:/user/login";
 	}
