@@ -1,12 +1,10 @@
 package com.koreait.sboard.user;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.common.Utils;
 import com.koreait.sboard.model.UserEntity;
 
@@ -21,7 +19,7 @@ public class UserService {
 		if(dbData == null) { //아이디 없음
 			return 2;
 		}
-		String cryptLoginPw = Utils.hashPassword(param.getUser_pw(), dbData.getSalt());
+		String cryptLoginPw = SecurityUtils.hashPassword(param.getUser_pw(), dbData.getSalt());
 		
 		if(!cryptLoginPw.equals(dbData.getUser_pw())) { //비밀번호 틀림
 			return 3;
@@ -33,8 +31,8 @@ public class UserService {
 	}
 	
 	public int insUser(UserEntity param) {
-		String salt = Utils.gensalt();
-		String encryptPw = Utils.hashPassword(param.getUser_pw(), salt);
+		String salt = SecurityUtils.gensalt();
+		String encryptPw = SecurityUtils.hashPassword(param.getUser_pw(), salt);
 		
 		param.setSalt(salt);
 		param.setUser_pw(encryptPw);

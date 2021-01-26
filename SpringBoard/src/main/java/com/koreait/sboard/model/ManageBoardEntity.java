@@ -1,5 +1,8 @@
 package com.koreait.sboard.model;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("ManageBoardEntity")
 public class ManageBoardEntity {
 	private int typ;
 	private String nm;

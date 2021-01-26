@@ -2,15 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-     
 <div>
-	<c:if test="${loginUser != null}">
+	<c:if test="${sessionScope.loginUser != null}">
 		<div>	
-			<a href="/board/reg.korea?typ=${param.typ == null ? 1 : param.typ}"><button>글쓰기</button></a>
+			<a href="/board/reg?typ=${param.typ == null ? 1 : param.typ}">
+				<button>글쓰기</button>
+			</a>
 		</div>
 	</c:if>
 	<c:choose>
-		<c:when test="${fn:length(list) == 0}">
+		<c:when test="${fn:length(requestScope.list) == 0}">
 			<div>글이 없습니다.</div>
 		</c:when>
 		<c:otherwise>
@@ -23,7 +24,7 @@
 				<td>작성일</td>
 				<td>작성자</td>
 			</tr>		
-			<c:forEach items="${list}" var="item">
+			<c:forEach items="${requestScope.list}" var="item">
 				<tr class="pointer" onclick="clkArticle(${item.i_board})">
 					<td>${item.seq}</td>
 					<td>${item.title}</td>

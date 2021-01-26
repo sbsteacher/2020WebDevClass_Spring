@@ -37,7 +37,7 @@
 			</beans:list>
 		</beans:property>
 		<beans:property name="preparerFactoryClass" 
-			value="org.springframework.web.servlet.view.tiles3.Spring Bean Preparer Factory"/>
+			value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>
 	</beans:bean>
 	
 	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">

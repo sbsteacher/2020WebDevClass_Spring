@@ -12,10 +12,14 @@
 			<li>${loginUser.nm}님 환영합니다.</li>
 			<li><a href="/user/logout">Logout</a></li>
 		</c:if>		
+		<li><a href="/board/home">Home</a></li>
 		<!-- TODO: 메뉴 뿌리기 -->
-		
-		<c:forEach items="${menuList}" var="menu">
-			<li>${menu.nm}</li>
+		<c:forEach items="${pageScope.menuList}" var="item">
+			<li class="${item.typ == param.typ ? 'selectedBoard': ''}">
+				<a href="/board/list?typ=${item.typ}">
+					${item.nm}
+				</a>
+			</li>
 		</c:forEach>
 		<c:if test="${loginUser != null}">
 			<li><a href="/user/profile">프로필</a></li>

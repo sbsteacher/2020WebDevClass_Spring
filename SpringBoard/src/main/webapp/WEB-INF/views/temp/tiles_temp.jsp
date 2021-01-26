@@ -18,10 +18,9 @@
 </head>
 <body>
 	<div id="container">
-	
 		<tiles:insertAttribute name="header" />
 		<section>
-			<tiles:insertAttribute name="content" />			
+			<tiles:insertAttribute name="content" />		
 		</section>		
 	</div>
 </body>

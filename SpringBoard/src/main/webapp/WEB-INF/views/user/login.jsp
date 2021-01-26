@@ -9,7 +9,7 @@
 			<div><input type="submit" value="LOGIN"></div>
 		</form>
 		<div style="color:red;">${msg}</div>
-		<a href="/user/join.korea">join</a>
+		<a href="/user/join">join</a>
 	</div>		
 </div>
 <div>
