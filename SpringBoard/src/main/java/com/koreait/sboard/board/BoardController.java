@@ -2,8 +2,6 @@ package com.koreait.sboard.board;
 
 import javax.servlet.http.HttpSession;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.BoardDTO;
 import com.koreait.sboard.model.BoardEntity;
 
@@ -36,9 +35,14 @@ public class BoardController {
 	
 	@PostMapping("/reg")
 	public String reg(BoardEntity p, HttpSession hs) {
-		
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		service.insBoard(p);
 		return "redirect:/board/detail?i_board=" + p.getI_board();
+	}
+	
+	@GetMapping("/detail")
+	public void detail(BoardDTO p, Model model) {
+		//model.addAttribute("data", service.selBoard(p));
 	}
 }
 

@@ -18,7 +18,7 @@
 			<table>
 			<tr>
 				<td>번호</td>
-				<td>제목</td>
+				<td class="w200">제목</td>
 				<td>조회수</td>
 				<td>좋아요</td>
 				<td>작성일</td>
@@ -27,7 +27,13 @@
 			<c:forEach items="${requestScope.list}" var="item">
 				<tr class="pointer" onclick="clkArticle(${item.i_board})">
 					<td>${item.seq}</td>
-					<td>${item.title}</td>
+					<td>					
+						${
+							fn:length(item.title) > 12 
+							? fn:substring(item.title, 0, 11) += '...' 
+							: item.title
+						}
+					</td>
 					<td>${item.hits}</td>
 					<td>${item.favorite_cnt}</td>
 					<td>${item.r_dt}</td>
@@ -49,7 +55,6 @@
 			</table>
 		</c:otherwise>
 	</c:choose>
-	
 	
 	<div class="pageContainer">
 		<c:forEach begin="1" end="${pageCnt}" var="i">
