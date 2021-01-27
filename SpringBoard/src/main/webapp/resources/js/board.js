@@ -9,7 +9,17 @@ function clkArticle(i_board) {
 //삭제 버튼 클릭
 function clkDel(i_board, typ) {
 	if(confirm('삭제 하시겠습니까?')) {
-		location.href = `del?i_board=${i_board}&typ=${typ}`;
+		fetch(`/board/del/${i_board}`)
+		.then(function(res) {			
+			return res.json();
+		}).then(function(myJson) {
+		    console.log(myJson);
+			if(myJson.result === 1) { //삭제 완료
+				location.href = `/board/list?typ=${typ}`;
+			} else { //삭제 실패
+				alert("삭제 실패하였습니다.");
+			}
+		});
 	}
 }
 

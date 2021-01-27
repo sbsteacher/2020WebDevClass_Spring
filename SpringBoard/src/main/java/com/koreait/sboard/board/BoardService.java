@@ -25,4 +25,23 @@ public class BoardService {
 		}
 		return mapper.selBoardList(p);
 	}
+	
+	public BoardDomain selBoard(BoardDTO p) {
+		//조회수
+		
+		return mapper.selBoard(p);
+	}
+	
+	public int delBoard(BoardDTO p) {
+		return mapper.delBoard(p);
+	}
 }
+
+
+
+
+
+
+
+
+
