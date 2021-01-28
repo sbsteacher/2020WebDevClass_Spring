@@ -49,6 +49,20 @@
 				WHERE A.i_board = #{i_board}
 	</select>
 	
+	<update id="updBoard">
+		UPDATE t_board
+		SET title = #{title}
+		, ctnt = #{ctnt}
+		WHERE i_board = #{i_board}
+		AND i_user = #{i_user}
+	</update>
+	
+	<update id="updBoardHits">
+		UPDATE t_board
+		SET hits = hits + 1
+		WHERE i_board = #{i_board}
+	</update>
+	
 	<delete id="delBoard">
 		DELETE FROM t_board
 		WHERE i_board = #{i_board}

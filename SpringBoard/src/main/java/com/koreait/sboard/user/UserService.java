@@ -26,7 +26,7 @@ public class UserService {
 		}
 		dbData.setSalt(null);
 		dbData.setUser_pw(null);
-		hs.setAttribute(Const.LOGINUSER, dbData);		
+		hs.setAttribute(Const.KEY_LOGINUSER, dbData);		
 		return 1;
 	}
 	

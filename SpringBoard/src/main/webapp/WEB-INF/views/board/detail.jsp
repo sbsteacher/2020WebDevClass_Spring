@@ -37,10 +37,9 @@
 	<div style="margin-top: 20px;">
 		<c:if test="${loginUser != null}">
 		<div>
-			<form action="cmt/reg" method="post">				
-				<input type="hidden" name="i_board" value="${data.i_board}">				
-				댓글: <input type="text" name="ctnt">
-				<input type="submit" value="댓글쓰기">
+			<form id="cmtFrm">
+				댓글: <input type="text" name="ctnt" data-id="${requestScope.data.i_board}">
+				<input type="button" name="btn" value="댓글쓰기">
 			</form>
 		</div>	
 		</c:if>

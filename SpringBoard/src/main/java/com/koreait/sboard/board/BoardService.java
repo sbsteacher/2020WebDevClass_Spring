@@ -27,9 +27,12 @@ public class BoardService {
 	}
 	
 	public BoardDomain selBoard(BoardDTO p) {
-		//조회수
-		
+		mapper.updBoardHits(p);		//조회수 올리기
 		return mapper.selBoard(p);
+	}
+	
+	public int updBoard(BoardEntity p) {
+		return mapper.updBoard(p);
 	}
 	
 	public int delBoard(BoardDTO p) {
