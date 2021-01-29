@@ -69,19 +69,73 @@ function toggleFavorite (i_board) {
 	});
 }
 
-var cmtFrmElem = document.querySelector('#cmtFrm')
-if(cmtFrmElem) {
-	var ctntElem = cmtFrmElem.ctnt
-	var i_board = ctntElem.dataset.id
-	var btnElem = cmtFrmElem.btn
+var cmtObj = {
+	createCmtTable: function() {
+		var tableElem = document.createElement('table')
+		tableElem.innerHTML = 
+		`<tr>
+			<th>내용</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>비고</th>
+		</tr>`			
+		return tableElem
+	},
 	
+	getCmtList: function(i_board) {
+		fetch(`/board/cmtList?i_board=${i_board}`)
+			.then(function(res) {
+				return res.json()
+			})
+			.then((list) => {
+				this.proc(list)
+			})
+	},
+	
+	createRecode: function(item) {
+		
+	},
+	proc: function(list) {
+		var table = this.createCmtTable()
+		
+		console.log(list)
+	}	
+}
+
+var cmtListElem = document.querySelector('#cmtList')
+if(cmtListElem) {
+	var i_board = document.querySelector('#i_board').dataset.id
+	cmtObj.getCmtList(i_board)
+}
+
+
+//댓글 달기
+var cmtFrmElem = document.querySelector('#cmtFrm')
+if(cmtFrmElem) {	
+	cmtFrmElem.onsubmit = function(e) {
+		e.preventDefault()
+	}
+
+	var ctntElem = cmtFrmElem.ctnt
+	var btnElem = cmtFrmElem.btn	
+	var i_board = document.querySelector('#i_board').dataset.id
+
+	ctntElem.onkeyup = function(e) {
+		console.log(e.keyCode)
+		if(e.keyCode === 13) {
+			ajax()
+		}
+	}	
 	btnElem.addEventListener('click', ajax)
 		
-	function ajax () {
-		
+	function ajax () {		
+		if(ctntElem.value === '') {
+			return
+		}
+				
 		var param = {
-			i_board,
-			ctnt: ctntElem.value
+			i_board: i_board,
+			ctnt: c
 		}
 	
 		console.log(param)
@@ -93,12 +147,23 @@ if(cmtFrmElem) {
 			body: JSON.stringify(param)
 		}).then(function(res) {
 			return res.json()
-		}).then(function(myJson) {
-			console.log(myJson)
+		}).then(function(data) {
+			proc(data)
 		})
 	}
+	
+	function proc (data) {
+		switch(data.result){
+			case 0:
+				alert('댓글 작성 실패하였습니다')
+			return
+			case 1:
+				ctntElem.value = ''
+			return
+		}
+	}
 }
- 
+
 
 
 
