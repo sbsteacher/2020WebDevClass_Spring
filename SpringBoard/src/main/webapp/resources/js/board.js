@@ -68,8 +68,48 @@ function toggleFavorite (i_board) {
 		console.err('err 발생 : ' + err)
 	});
 }
+//모달창 열기 닫기
+function openCloseCmtModal(state) {
+	var modalWrapElem = document.querySelector('.modal_wrap')
+	var blackBgElem = document.querySelector('.black_bg')	
+	modalWrapElem.style.display = state
+	blackBgElem.style.display = state
+}
+
+//댓글 수정
+function modCmt(i_cmt, ctnt) {
+	openCloseCmtModal('block')
+	
+	var cmtCtntElem = document.querySelector('.modal_wrap #cmtCtnt')
+	var cmtModBtn = document.querySelector('.modal_wrap #cmtModBtn')
+	
+	cmtCtntElem.value = ctnt
+}
+
+//댓글 삭제
+function delCmt(i_cmt) {
+	if(!confirm('삭제하시겠습니까?')) {
+		return
+	}
+	
+	fetch(`/board/delCmt?i_cmt=${i_cmt}`,{
+		method: 'delete'
+	}).then(function(res) {
+		return res.json()
+	}).then(function(myJson) {
+		switch(myJson.result) {
+			case 1:
+				cmtObj.getCmtList()
+			return
+			case 0:
+				alert('댓글 삭제 실패')
+			return
+		}
+	})
+}
 
 var cmtObj = {
+	i_board: 0,
 	createCmtTable: function() {
 		var tableElem = document.createElement('table')
 		tableElem.innerHTML = 
@@ -82,30 +122,58 @@ var cmtObj = {
 		return tableElem
 	},
 	
-	getCmtList: function(i_board) {
-		fetch(`/board/cmtList?i_board=${i_board}`)
+	getCmtList: function() {
+		if(this.i_board === 0) {
+			return
+		}
+		fetch(`/board/cmtList?i_board=${this.i_board}`)
 			.then(function(res) {
 				return res.json()
 			})
 			.then((list) => {
+				cmtListElem.innerHTML = ''
 				this.proc(list)
 			})
 	},
-	
-	createRecode: function(item) {
-		
-	},
 	proc: function(list) {
+		if(list.length == 0) {			
+			return
+		}
 		var table = this.createCmtTable()
-		
-		console.log(list)
-	}	
+		for(var i=0; i<list.length; i++) {
+			var recode = this.createRecode(list[i])
+			table.append(recode)
+		}		
+		cmtListElem.append(table)
+	},
+	createRecode: function(item) {
+		var etc = ''
+		if(item.is_mycmt === 1) {
+			etc = `<button onclick="modCmt(${item.i_cmt}, '${item.ctnt}')">수정</button>
+			<button onclick="delCmt(${item.i_cmt})">삭제</button>`
+		}
+		var tr = document.createElement('tr')
+		tr.innerHTML = `
+			<td>${item.ctnt}</td>
+			<td>${item.user_nm}</td>
+			<td>${item.r_dt}</td>
+			<td>${etc}</td>`
+		return tr
+	},	
 }
 
+//댓글 리스트
 var cmtListElem = document.querySelector('#cmtList')
 if(cmtListElem) {
+	//모달창 닫기 버튼
+	var modalCloseElem = document.querySelector('.modal_close')
+	modalCloseElem.addEventListener('click', function() {
+		openCloseCmtModal('none')
+	})
+	
 	var i_board = document.querySelector('#i_board').dataset.id
-	cmtObj.getCmtList(i_board)
+	cmtObj.i_board = i_board
+	cmtObj.getCmtList()
 }
 
 
@@ -119,9 +187,9 @@ if(cmtFrmElem) {
 	var ctntElem = cmtFrmElem.ctnt
 	var btnElem = cmtFrmElem.btn	
 	var i_board = document.querySelector('#i_board').dataset.id
+	cmtObj.i_board = i_board
 
-	ctntElem.onkeyup = function(e) {
-		console.log(e.keyCode)
+	ctntElem.onkeyup = function(e) {		
 		if(e.keyCode === 13) {
 			ajax()
 		}
@@ -135,7 +203,7 @@ if(cmtFrmElem) {
 				
 		var param = {
 			i_board: i_board,
-			ctnt: c
+			ctnt: ctntElem.value
 		}
 	
 		console.log(param)
@@ -158,7 +226,8 @@ if(cmtFrmElem) {
 				alert('댓글 작성 실패하였습니다')
 			return
 			case 1:
-				ctntElem.value = ''
+				ctntElem.value = ''				
+				cmtObj.getCmtList()
 			return
 		}
 	}

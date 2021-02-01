@@ -101,10 +101,21 @@ public class BoardController {
 	
 	@ResponseBody
 	@GetMapping("/cmtList")
-	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board) {
-		return service.selCmtList(i_board);
+	public List<BoardCmtDomain> selCmtList(BoardCmtEntity p, HttpSession hs) {
+		System.out.println("i_board : " + p.getI_board());
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		return service.selCmtList(p);
 	}
 	
+	@ResponseBody
+	@DeleteMapping("/delCmt")
+	public Map<String, Object> delCmt(BoardCmtEntity p
+			, HttpSession hs) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		Map<String, Object> returnValue = new HashMap<>();
+		returnValue.put(Const.KEY_RESULT, service.delCmt(p));
+		return returnValue;
+	}
 }
 
 
