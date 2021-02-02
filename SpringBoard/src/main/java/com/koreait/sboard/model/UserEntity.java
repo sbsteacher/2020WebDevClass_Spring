@@ -1,8 +1,5 @@
 package com.koreait.sboard.model;
 
-import org.apache.ibatis.type.Alias;
-
-@Alias("UserEntity")
 public class UserEntity {
 	private int i_user;
 	private String user_id;
@@ -12,9 +9,16 @@ public class UserEntity {
 	private int gender;
 	private String ph;
 	private String profile_img;
+	private String email;
 	private String r_dt;
 	private String m_dt;
-	
+		
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public int getI_user() {
 		return i_user;
 	}

@@ -3,9 +3,9 @@
 <mapper namespace="com.koreait.sboard.user.UserMapper">
 	<insert id="insUser">
 		INSERT INTO t_user
-		( user_id, user_pw, salt, nm, gender, ph )
+		( user_id, user_pw, salt, nm, gender, ph, email )
 		VALUES
-		( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{ph} )
+		( #{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{ph}, #{email} )
 	</insert>
 	
 	<select id="selUser" resultType="UserEntity">

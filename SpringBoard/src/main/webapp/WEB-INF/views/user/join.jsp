@@ -7,6 +7,7 @@
 			<div><input type="password" name="user_pw" placeholder="password" required></div>
 			<div><input type="password" name="user_pw_chk" placeholder="password check"></div>
 			<div><input type="text" name="nm" placeholder="Your Name" required></div>
+			<div><input type="email" name="email" placeholder="Your Email" required></div>
 			<div>
 				Gender : 
 				<label>Woman<input type="radio" name="gender" value="0" checked></label>

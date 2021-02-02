@@ -36,13 +36,23 @@ public class UserController {
 		return null;
 	}
 	
-	@RequestMapping("/join")
+	@GetMapping("/join")
 	public void join() {}
 	
 	@PostMapping("/join")
 	public String join(UserEntity param) {	 
 		service.insUser(param);
 		return "redirect:/user/login";
+	}
+	
+	@GetMapping("/findPw")
+	public void findPw() {}
+	
+	@GetMapping("/findPwProc")
+	public String findPwProc(String user_id) {
+		System.out.println("user_id : " + user_id);
+		service.findPwProc(user_id);
+		return "user/findPw";
 	}
 }
 

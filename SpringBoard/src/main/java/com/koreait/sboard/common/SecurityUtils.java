@@ -28,6 +28,14 @@ public class SecurityUtils {
 		return BCrypt.hashpw(pw, salt);
 	}
 	
+	public static String getPrivateCode(int len) {
+		String str = "";		
+		for(int i=0; i<len; i++) {
+			str += (int)(Math.random() * 10);
+		}
+		return str;
+	}
+	
 }
 
 

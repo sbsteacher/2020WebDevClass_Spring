@@ -12,9 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreait.sboard.common.Const;
@@ -105,6 +105,21 @@ public class BoardController {
 		System.out.println("i_board : " + p.getI_board());
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		return service.selCmtList(p);
+	}
+		
+	@ResponseBody
+	@PutMapping("/updCmt")
+	public Map<String, Object> updCmt(@RequestBody BoardCmtEntity p
+			, HttpSession hs) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		
+		System.out.println("i_cmt : " + p.getI_cmt());
+		System.out.println("ctnt : " + p.getCtnt());
+		
+		Map<String, Object> returnValue = new HashMap<>();
+		returnValue.put(Const.KEY_RESULT, service.updCmt(p));
+		
+		return returnValue;
 	}
 	
 	@ResponseBody

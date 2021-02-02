@@ -23,6 +23,7 @@ public interface BoardMapper {
 	//------------------------- CMT --------------------//
 	int insCmt(BoardCmtEntity p);
 	List<BoardCmtDomain> selCmtList(BoardCmtEntity p);
+	int updCmt(BoardCmtEntity p);
 	int delCmt(BoardCmtEntity p);
 	
 }

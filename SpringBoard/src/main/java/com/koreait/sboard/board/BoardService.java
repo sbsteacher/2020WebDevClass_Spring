@@ -54,6 +54,10 @@ public class BoardService {
 		return mapper.selCmtList(p);
 	}
 	
+	public int updCmt(BoardCmtEntity p) {
+		return mapper.updCmt(p);
+	}
+	
 	public int delCmt(BoardCmtEntity p) {
 		return mapper.delCmt(p);
 	}

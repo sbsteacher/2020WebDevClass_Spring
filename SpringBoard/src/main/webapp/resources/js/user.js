@@ -33,7 +33,16 @@ function chkPw() {
 	}
 }
 
+//인증메일 받기
+function clkFindPwBtn () {
+	var user_id = document.querySelector('#findPwUserId').value
 
+	ajax()
+	
+	function ajax () {
+		fetch(`/user/findPwProc?user_id=${user_id}`)
+	}
+}
 
 
 

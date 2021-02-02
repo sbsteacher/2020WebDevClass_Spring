@@ -50,29 +50,29 @@
 	</div>
 	
 	<c:if test="${loginUser != null}">
-	<div id="favoriteContainer" is_favorite="${data.is_favorite}"
-		 onclick="toggleFavorite(${data.i_board});">	
-		<c:choose>
-			<c:when test="${data.is_favorite == 1}">
-				<i class="fas fa-heart"></i>
-			</c:when>
-			<c:otherwise>
-				<i class="far fa-heart"></i>
-			</c:otherwise>
-		</c:choose>		
-	</div>
-	
-	<div class="black_bg"></div>
-	<div class="modal_wrap">
-	    <div class="modal_close">
-	    	<a href="#">close</a>
-	    </div>
-	    <div>
-	      	<h3>댓글 수정</h3>
-	      	<input type="text" id="cmtCtnt">
-	      	<input type="button" value="수정" id="cmtModBtn">
-	    </div>
-	</div>
+		<div id="favoriteContainer" is_favorite="${data.is_favorite}"
+			 onclick="toggleFavorite(${data.i_board});">	
+			<c:choose>
+				<c:when test="${data.is_favorite == 1}">
+					<i class="fas fa-heart"></i>
+				</c:when>
+				<c:otherwise>
+					<i class="far fa-heart"></i>
+				</c:otherwise>
+			</c:choose>		
+		</div>
+		
+		<div class="black_bg"></div>
+		<div class="modal_wrap">
+		    <div class="modal_close">
+		    	<a href="#">close</a>
+		    </div>
+		    <div>
+		      	<h3>댓글 수정</h3>
+		      	<input type="text" id="cmtCtnt" value="">
+		      	<input type="button" value="수정" id="cmtModBtn">
+		    </div>
+		</div>
 	</c:if>
 	
 	

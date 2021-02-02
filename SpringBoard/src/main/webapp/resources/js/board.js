@@ -80,10 +80,38 @@ function openCloseCmtModal(state) {
 function modCmt(i_cmt, ctnt) {
 	openCloseCmtModal('block')
 	
-	var cmtCtntElem = document.querySelector('.modal_wrap #cmtCtnt')
-	var cmtModBtn = document.querySelector('.modal_wrap #cmtModBtn')
+	var cmtCtntElem = document.querySelector('#cmtCtnt')
+	var cmtModBtn = document.querySelector('#cmtModBtn')
 	
 	cmtCtntElem.value = ctnt
+	cmtModBtn.onclick = ajax
+	
+	function ajax () {
+		var param = {
+			i_cmt,
+			ctnt: cmtCtntElem.value
+		}
+		
+		fetch('/board/updCmt', {
+			method: 'put',
+			headers: {
+            	'Content-Type': 'application/json'
+			},
+			body:JSON.stringify(param)
+		}).then(res => res.json())
+		.then(myJson => {
+			openCloseCmtModal('none')
+			
+			switch(myJson.result) {
+				case 0:
+					alert('수정에 실패하였습니다.')
+					return
+				case 1:
+					cmtObj.getCmtList() //리스트 가져오기
+					return
+			}
+		})
+	}
 }
 
 //댓글 삭제
@@ -167,9 +195,12 @@ var cmtListElem = document.querySelector('#cmtList')
 if(cmtListElem) {
 	//모달창 닫기 버튼
 	var modalCloseElem = document.querySelector('.modal_close')
-	modalCloseElem.addEventListener('click', function() {
-		openCloseCmtModal('none')
-	})
+	if(modalCloseElem) {
+		modalCloseElem.addEventListener('click', function() {
+			openCloseCmtModal('none')
+		})
+	}
+	
 	
 	var i_board = document.querySelector('#i_board').dataset.id
 	cmtObj.i_board = i_board
