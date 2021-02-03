@@ -1,11 +1,13 @@
 package com.koreait.sboard.user;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.MailUtils;
 import com.koreait.sboard.common.SecurityUtils;
-import com.koreait.sboard.common.Utils;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
 
@@ -13,6 +15,9 @@ import com.koreait.sboard.model.UserEntity;
 public class UserService {	
 	@Autowired
 	private UserMapper mapper;
+	
+	@Autowired
+	private MailUtils mailUtils;
 		
 	//1:로그인성공, 2:아이디없음, 3:비밀번호틀림
 	public int login(UserEntity param, HttpSession hs) {
@@ -41,7 +46,7 @@ public class UserService {
 		return mapper.insUser(param);
 	}
 	
-	//1:성공, 2:아이디확인, 3:메일전송 실패
+	//0:메일전송 실패, 1:성공, 2:아이디확인 
 	public int findPwProc(AuthEntity p) {
 		//이메일 주소 얻어오기
 		UserEntity p2 = new UserEntity();
@@ -57,11 +62,9 @@ public class UserService {
 		mapper.delAuth(p); //일단 삭제
 		
 		p.setCd(code);
-		mapper.insAuth(p);
+		mapper.insAuth(p);	
 		
-		System.out.println("email : " + email);
-		
-		return 0;
+		return mailUtils.sendFindPwEmail(email, code);
 	}
 }
 

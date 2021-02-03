@@ -4,9 +4,13 @@ import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class MailUtils {
 	private String userId;
@@ -15,7 +19,13 @@ public class MailUtils {
 	private String port;
 	private String fromEmail;
 	
-	public int sendMail(final String toEmail) {
+	public int sendFindPwEmail(final String toEmail, final String code) {
+		String subject = "sboard 비밀번호 찾기 인증 이메일 입니다.";
+		String body = String.format("<div>안녕하세요 코드는 %s입니다.</div>", code);		
+		return sendMail(toEmail, subject, body);
+	}
+	
+	public int sendMail(final String toEmail, final String subject, final String body) {
 		try {
 			Properties prop = new Properties();
 			prop.put("mail.smtp.auth", "true");
@@ -33,8 +43,16 @@ public class MailUtils {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-
+			message.setSubject(subject);
+						
+			MimeBodyPart mimeBodyPart = new MimeBodyPart();
+			mimeBodyPart.setContent(body, "text/html; charset=UTF-8");
 			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(mimeBodyPart);
+			
+			message.setContent(multipart);			
+			Transport.send(message);			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return 0;
