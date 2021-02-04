@@ -19,10 +19,20 @@ public class MailUtils {
 	private String port;
 	private String fromEmail;
 	
-	public int sendFindPwEmail(final String toEmail, final String code) {
+	public int sendFindPwEmail(final String toEmail, final String user_id, final String code) {
 		String subject = "sboard 비밀번호 찾기 인증 이메일 입니다.";
-		String body = String.format("<div>안녕하세요 코드는 %s입니다.</div>", code);		
-		return sendMail(toEmail, subject, body);
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div>")
+		.append("<a href=\"http://localhost:8090/user/findPwAuth?cd=")
+		.append(code)
+		.append("&user_id=")
+		.append(user_id)
+		.append("\" target=\"_blank\">비밀번호 변경하러 가기</a>")		
+		.append("</div>");
+		
+		//<div><a href="http://localhost:8090/user/findPwAuth?cd=1234&user_id=mic" target="_blank">
+		//비밀번호 변경하러 가기</a></div>
+		return sendMail(toEmail, subject, sb.toString());
 	}
 	
 	public int sendMail(final String toEmail, final String subject, final String body) {

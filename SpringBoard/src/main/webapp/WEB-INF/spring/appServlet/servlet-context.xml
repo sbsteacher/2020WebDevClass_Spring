@@ -59,12 +59,12 @@
 	<mybatis-spring:scan base-package="com.koreait.sboard"/>
 	
 	<beans:bean class="com.koreait.sboard.common.MailUtils">
-		<beans:property name="userId" value=""/>
-		<beans:property name="userPw" value=""/>
+		<beans:property name="userId" value="pirbak"/>
+		<beans:property name="userPw" value="33gkrhwhg9Dy"/>
 		<beans:property name="host" value="smtp.naver.com"/>
-		<beans:property name="port" value=""/>
-		<beans:property name="fromEmail" value="@naver.com"/>
-	</beans:bean>	
+		<beans:property name="port" value="587"/>
+		<beans:property name="fromEmail" value="pirbak@naver.com"/>
+	</beans:bean>
 	
 	
 </beans:beans>

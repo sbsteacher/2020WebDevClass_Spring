@@ -8,8 +8,9 @@ import com.koreait.sboard.model.UserEntity;
 @Mapper
 public interface UserMapper {
 	
-	UserEntity selUser(UserEntity param);
-	int insUser(UserEntity param);
+	UserEntity selUser(UserEntity p);
+	int insUser(UserEntity p);
+	int updUser(UserEntity p);
 	
 	/*--------------------- 비밀번호 찾기 ----- */
 	int insAuth(AuthEntity p);
