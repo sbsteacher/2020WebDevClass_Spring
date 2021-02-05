@@ -7,6 +7,7 @@
 		<div><input type="button" value="인증메일 받기" onclick="clkFindPwBtn()"></div>
 		<div style="color:red;" id="findPwMsg"></div>
 		<a href="/user/login">Go to Login</a>		
-	</div>	
+	</div>
+	<div id="countDownTime"></div>
 </div>
 
