@@ -12,3 +12,30 @@
     font-size: 30px;
     cursor: pointer;
 }
+
+.td-ellipsis {
+	height: 40px;
+	max-width: 500px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+.page {
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

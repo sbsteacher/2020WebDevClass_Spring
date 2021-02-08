@@ -24,7 +24,7 @@ public class SecurityUtils {
 		return BCrypt.gensalt();
 	}
 
-	public static String hashPassword(String pw, String salt) {
+	public static String hashPassword(String pw, String salt) {		
 		return BCrypt.hashpw(pw, salt);
 	}
 	

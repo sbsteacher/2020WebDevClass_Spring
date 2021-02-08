@@ -10,6 +10,7 @@ import com.koreait.sboard.model.BoardCmtEntity;
 import com.koreait.sboard.model.BoardDTO;
 import com.koreait.sboard.model.BoardDomain;
 import com.koreait.sboard.model.BoardEntity;
+import com.koreait.sboard.model.BoardParentDomain;
 
 @Service
 public class BoardService {
@@ -21,11 +22,26 @@ public class BoardService {
 		return mapper.insBoard(p);
 	}
 	
-	public List<BoardDomain> selBoardList(BoardDTO p) {
+	public BoardParentDomain selBoardList(BoardDTO p) {
 		if(p.getTyp() == 0) {
 			p.setTyp(1);
 		}
-		return mapper.selBoardList(p);
+		if(p.getRecordCntPerPage() == 0) {
+			p.setRecordCntPerPage(5);
+		}
+		if(p.getPage() == 0) {
+			p.setPage(1);
+		}
+		
+		int sIdx = (p.getPage() - 1) * p.getRecordCntPerPage();
+		p.setsIdx(sIdx);
+		
+		BoardParentDomain bpd = new BoardParentDomain();
+		bpd.setMaxPageNum(mapper.selMaxPageNum(p));
+		bpd.setList(mapper.selBoardList(p));
+		bpd.setPage(p.getPage());
+		bpd.setRecordCntPerPage(p.getRecordCntPerPage());
+		return bpd;
 	}
 	
 	public BoardDomain selBoard(BoardDTO p) {

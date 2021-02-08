@@ -8,6 +8,11 @@
 		WHERE typ = #{typ}
 	</insert>
 	
+	<select id="selMaxPageNum" resultType="_int">
+		SELECT CEIL(COUNT(i_board) / #{recordCntPerPage}) FROM t_board
+		WHERE typ = #{typ}
+	</select>
+	
 	<select id="selBoardList" resultType="BoardDomain">
 		SELECT A.i_board, A.seq, A.title, A.r_dt, A.hits
 		, B.i_user, B.nm AS writer_nm, B.profile_img
@@ -23,6 +28,7 @@
 		ON A.i_board = C.i_board
 		WHERE A.typ = #{typ}
 		ORDER BY seq DESC
+		LIMIT #{sIdx}, #{recordCntPerPage}
 	</select>
 	
 	<select id="selBoard" resultType="BoardDomain">
