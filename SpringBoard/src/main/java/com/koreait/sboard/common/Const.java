@@ -13,5 +13,6 @@ public class Const {
 	public static final String KEY_RESULT = "result";
 	
 	public static final int AUTH_REST_SEC = 300;
+	public static final int PAGE_SIDE_NUM = 3;
 }
 

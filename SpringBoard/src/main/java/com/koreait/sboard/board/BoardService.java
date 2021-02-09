@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.koreait.sboard.common.Const;
 import com.koreait.sboard.model.BoardCmtDomain;
 import com.koreait.sboard.model.BoardCmtEntity;
 import com.koreait.sboard.model.BoardDTO;
@@ -31,8 +32,7 @@ public class BoardService {
 		}
 		if(p.getPage() == 0) {
 			p.setPage(1);
-		}
-		
+		}		
 		int sIdx = (p.getPage() - 1) * p.getRecordCntPerPage();
 		p.setsIdx(sIdx);
 		
@@ -41,6 +41,34 @@ public class BoardService {
 		bpd.setList(mapper.selBoardList(p));
 		bpd.setPage(p.getPage());
 		bpd.setRecordCntPerPage(p.getRecordCntPerPage());
+		
+		final int SIDE_NUM = Const.PAGE_SIDE_NUM;
+		int pageLen = SIDE_NUM * 2 + 1;
+		int page = p.getPage();
+		int maxPage = bpd.getMaxPageNum();
+		int sPage = 1;
+		int ePage = page + SIDE_NUM;
+		
+		if(pageLen < maxPage) {			
+			if(SIDE_NUM < page) {
+				sPage = page - SIDE_NUM;
+			} 
+			if(sPage > maxPage - pageLen) {
+				sPage = maxPage - pageLen + 1;
+			}
+			
+			if(ePage > maxPage) {
+				ePage = maxPage;
+			} else if(ePage < pageLen) {
+				ePage = pageLen;
+			}
+		} else {
+			ePage = maxPage;
+		}
+		
+		bpd.setsPage(sPage);
+		bpd.setePage(ePage);		
+		
 		return bpd;
 	}
 	
