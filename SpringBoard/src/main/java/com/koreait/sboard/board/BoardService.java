@@ -46,14 +46,13 @@ public class BoardService {
 		int pageLen = SIDE_NUM * 2 + 1;
 		int page = p.getPage();
 		int maxPage = bpd.getMaxPageNum();
-		int sPage = 1;
+		int sPage = page - SIDE_NUM;
 		int ePage = page + SIDE_NUM;
 		
-		if(pageLen < maxPage) {			
-			if(SIDE_NUM < page) {
-				sPage = page - SIDE_NUM;
-			} 
-			if(sPage > maxPage - pageLen) {
+		if(pageLen < maxPage) {	
+			if(sPage < 1) {
+				sPage = 1;
+			} else if(sPage > maxPage - pageLen) {
 				sPage = maxPage - pageLen + 1;
 			}
 			
@@ -63,6 +62,7 @@ public class BoardService {
 				ePage = pageLen;
 			}
 		} else {
+			sPage = 1;
 			ePage = maxPage;
 		}
 		

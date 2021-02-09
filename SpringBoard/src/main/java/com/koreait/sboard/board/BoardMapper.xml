@@ -9,8 +9,22 @@
 	</insert>
 	
 	<select id="selMaxPageNum" resultType="_int">
-		SELECT CEIL(COUNT(i_board) / #{recordCntPerPage}) FROM t_board
-		WHERE typ = #{typ}
+		SELECT CEIL(COUNT(A.i_board) / #{recordCntPerPage}) FROM t_board A
+		INNER JOIN t_user B
+		ON A.i_user = B.i_user
+		WHERE A.typ = #{typ}
+		<if test="searchType == 1">
+			AND A.title LIKE '%${searchText}%'
+		</if>
+		<if test="searchType == 2">
+			AND A.ctnt LIKE '%${searchText}%'
+		</if>
+		<if test="searchType == 3">
+			AND (A.title LIKE '%${searchText}%' OR A.ctnt LIKE '%${searchText}%')
+		</if>
+		<if test="searchType == 4">
+			AND B.nm LIKE '%${searchText}%'
+		</if>
 	</select>
 	
 	<select id="selBoardList" resultType="BoardDomain">
@@ -27,6 +41,18 @@
 		) C 
 		ON A.i_board = C.i_board
 		WHERE A.typ = #{typ}
+		<if test="searchType == 1">
+			AND title LIKE CONCAT('%', #{searchText}, '%')
+		</if>
+		<if test="searchType == 2">
+			AND A.ctnt LIKE '%${searchText}%'
+		</if>
+		<if test="searchType == 3">
+			AND (A.title LIKE '%${searchText}%' OR A.ctnt LIKE '%${searchText}%')
+		</if>
+		<if test="searchType == 4">
+			AND B.nm LIKE '%${searchText}%'
+		</if>
 		ORDER BY seq DESC
 		LIMIT #{sIdx}, #{recordCntPerPage}
 	</select>
