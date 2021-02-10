@@ -20,9 +20,13 @@ public class UserService {
 	@Autowired
 	private MailUtils mailUtils;
 		
+	public UserEntity selUser(UserEntity p) {
+		return mapper.selUser(p);
+	}
+	
 	//1:로그인성공, 2:아이디없음, 3:비밀번호틀림
 	public int login(UserEntity param, HttpSession hs) {
-		UserEntity dbData = mapper.selUser(param);
+		UserEntity dbData = selUser(param);
 		if(dbData == null) { //아이디 없음
 			return 2;
 		}
@@ -52,7 +56,7 @@ public class UserService {
 		//이메일 주소 얻어오기
 		UserEntity p2 = new UserEntity();
 		p2.setUser_id(p.getUser_id());
-		UserEntity vo = mapper.selUser(p2);
+		UserEntity vo = selUser(p2);
 		if(vo == null) {
 			return 2;
 		}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.AuthDTO;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
@@ -75,6 +76,16 @@ public class UserController {
 		Map<String, Object> rVal = new HashMap<>();
 		rVal.put(Const.KEY_RESULT, service.findPwAuthProc(p));
 		return rVal;
+	}
+	
+	@GetMapping("/profile")
+	public void profile() {}
+	
+	@ResponseBody
+	@GetMapping("/profileData")
+	public UserEntity profileData(UserEntity p, HttpSession hs) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		return service.selUser(p);
 	}
 }
 
