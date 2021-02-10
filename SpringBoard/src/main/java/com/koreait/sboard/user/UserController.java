@@ -1,6 +1,7 @@
 package com.koreait.sboard.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.koreait.sboard.common.Const;
 import com.koreait.sboard.common.SecurityUtils;
@@ -86,6 +89,13 @@ public class UserController {
 	public UserEntity profileData(UserEntity p, HttpSession hs) {
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		return service.selUser(p);
+	}
+	
+	@ResponseBody
+	@PostMapping("/profileUpload")
+	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {
+		System.out.println("imgs : " + imgs.length);
+		return service.profileUpload(imgs, hs);
 	}
 }
 

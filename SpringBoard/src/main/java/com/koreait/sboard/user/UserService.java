@@ -1,9 +1,14 @@
 package com.koreait.sboard.user;
 
+import java.io.File;
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.koreait.sboard.common.Const;
 import com.koreait.sboard.common.MailUtils;
@@ -11,6 +16,7 @@ import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.AuthDTO;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
+import com.koreait.sboard.model.UserImgEntity;
 
 @Service
 public class UserService {	
@@ -92,6 +98,39 @@ public class UserService {
 		p2.setSalt(salt);
 		
 		return mapper.updUser(p2);
+	}
+	
+	//이미지 업로드
+	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {	
+		int i_user = SecurityUtils.getLoingUserPk(hs);
+		String basePath = hs.getServletContext().getRealPath("/resources/img/user/" + i_user + "/");
+		System.out.println("basePath : " + basePath);
+		
+		try {
+			for(int i=0; i<imgs.length; i++) {
+				MultipartFile file = imgs[i];
+				String fileNm = UUID.randomUUID().toString();
+				String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+				fileNm += "." + ext;
+				File target = new File(basePath + fileNm);
+				file.transferTo(target);
+				
+				if(i==0) { //메인 이미지 업데이트
+					UserEntity p = new UserEntity();
+					p.setI_user(i_user);
+					p.setProfile_img(fileNm);					
+					mapper.updUser(p);
+				}				
+				UserImgEntity p2 = new UserImgEntity();
+				p2.setI_user(i_user);
+				p2.setImg(fileNm);				
+				mapper.insUserImg(p2);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return 1;
 	}
 }
 

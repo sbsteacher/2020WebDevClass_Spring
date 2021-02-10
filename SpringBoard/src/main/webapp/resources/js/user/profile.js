@@ -1,6 +1,22 @@
-
+var inputImgElem = document.querySelector('#inputImg')
 function upload () {
-	console.log('dddd')
+	if(inputImgElem.files.length === 0) {
+		alert('이미지를 선택해 주세요')
+		return
+	}
+	
+	ajax()
+	
+	function ajax () {
+		var formData = new FormData()
+		for(var i=0; i<inputImgElem.files.length; i++) {
+			formData.append('imgs', inputImgElem.files[i])	
+		}		
+		fetch('/user/profileUpload',{
+			method: 'post',
+			body: formData
+		})
+	}
 }
 
 
