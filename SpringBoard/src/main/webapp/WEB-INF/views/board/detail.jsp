@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <div>
-	<a href="/board/list?typ=${requestScope.data.typ}">돌아가기</a>
+	<span class="pointer" onclick="back()">돌아가기</span>
 	
 	<c:if test="${data.i_user == loginUser.i_user}">
 		<button onclick="clkDel(${requestScope.data.i_board}, ${requestScope.data.typ});">삭제</button>
@@ -15,7 +15,7 @@
 		<div>번호 : ${requestScope.data.seq}</div>
 		<div>조회수 : ${requestScope.data.hits}</div>
 		<div>
-			이름 :
+			작성자 :
 			<c:if test="${data.profile_img == null}">
 				<div class="circular--landscape circular--size40">
 					<img id="profileImg" src="/res/img/basic_profile.jpg">
@@ -26,12 +26,37 @@
 					<img id="profileImg" src="/res/img/${data.i_user}/${data.profile_img}">
 				</div>
 			</c:if>
-			<span class="profile-td-nm">${data.writer_nm}</span>
+			<span class="profile-td-nm">
+				<c:choose>
+					<c:when test="${param.searchType == 4 && param.searchText != ''}">
+						${fn:replace(data.writer_nm, param.searchText, '<mark>' += param.searchText += '</mark>')}
+					</c:when>
+					<c:otherwise>
+						${data.writer_nm}
+					</c:otherwise>
+				</c:choose>
+			</span>
 		</div>
-		<div>제목 : ${data.title}</div>
+		<div>제목 : 
+			<c:choose>
+				<c:when test="${(param.searchType == 1 || param.searchType == 3) && param.searchText != ''}">
+					${fn:replace(data.title, param.searchText, '<mark>' += param.searchText += '</mark>')}
+				</c:when>
+				<c:otherwise>
+					${data.title}
+				</c:otherwise>
+			</c:choose>
+		</div>
 		<div>작성일 : ${data.r_dt}</div>
 		<div>
-			${data.ctnt}
+			<c:choose>
+				<c:when test="${(param.searchType == 2 || param.searchType == 3) && param.searchText != ''}">
+					${fn:replace(data.ctnt, param.searchText, '<mark>' += param.searchText += '</mark>')}
+				</c:when>
+				<c:otherwise>
+					${data.ctnt}
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 	<div style="margin-top: 20px;">

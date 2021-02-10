@@ -18,14 +18,14 @@
 				<option value="3" ${param.searchType == 3 ? 'selected' : ''}>제목+내용</option>
 				<option value="4" ${param.searchType == 4 ? 'selected' : ''}>작성자</option>
 			</select>
-			<input type="search" id="searchText" value="${param.searchText}">
+			<input type="search" id="searchText" value="${param.searchText}" onkeyup="doSearch(event)">
 			<input type="button" value="검색" onclick="getBoardList()">
 		</span>
-		<form id="listFrm" action="/board/list" method="get">	
+		<form id="listFrm" action="/board/list" method="get">
 			<input type="hidden" name="typ">
 			<input type="hidden" name="searchType" value="0">
 			<input type="hidden" name="searchText">
-			<input type="hidden" name="page" value="1">				
+			<input type="hidden" name="page" value="1">
 			<select name="recordCntPerPage" onchange="getBoardList()">
 				<c:forEach begin="5" end="50" step="5" var="p">
 					<option value="${p}" ${requestScope.data.recordCntPerPage == pageScope.p ? 'selected' : ''}>${p}개</option>	
@@ -49,10 +49,17 @@
 				<td>작성자</td>
 			</tr>		
 			<c:forEach items="${requestScope.data.list}" var="item">
-				<tr class="pointer" onclick="clkArticle(${item.i_board})">
+				<tr class="pointer" onclick="clkArticle(${item.i_board}, ${param.searchType}, '${param.searchText}')">
 					<td>${item.seq}</td>
 					<td class="td-ellipsis">
-						${item.title}
+						<c:choose>
+							<c:when test="${(param.searchType == 1 || param.searchType == 3) && param.searchText != ''}">
+								${fn:replace(item.title, param.searchText, '<mark>' += param.searchText += '</mark>')}
+							</c:when>
+							<c:otherwise>
+								${item.title}
+							</c:otherwise>
+						</c:choose>
 					</td>
 					<td>${item.hits}</td>
 					<td>${item.favorite_cnt}</td>
@@ -68,7 +75,16 @@
 								<img id="profileImg" src="/res/img/${item.i_user}/${item.profile_img}">
 							</div>
 						</c:if>
-						<span class="profile-td-nm">${item.writer_nm}</span>
+						<span class="profile-td-nm">
+							<c:choose>
+								<c:when test="${param.searchType == 4 && param.searchText != ''}">
+									${fn:replace(item.writer_nm, param.searchText, '<mark>' += param.searchText += '</mark>')}
+								</c:when>
+								<c:otherwise>
+									${item.writer_nm}
+								</c:otherwise>
+							</c:choose>						
+						</span>
 					</td>
 				</tr>
 			</c:forEach>

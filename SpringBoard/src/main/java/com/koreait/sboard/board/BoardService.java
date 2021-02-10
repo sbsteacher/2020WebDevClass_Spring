@@ -43,23 +43,24 @@ public class BoardService {
 		bpd.setRecordCntPerPage(p.getRecordCntPerPage());
 		
 		final int SIDE_NUM = Const.PAGE_SIDE_NUM;
-		int pageLen = SIDE_NUM * 2 + 1;
+		int pageLen = SIDE_NUM * 2;
 		int page = p.getPage();
 		int maxPage = bpd.getMaxPageNum();
+		
 		int sPage = page - SIDE_NUM;
 		int ePage = page + SIDE_NUM;
 		
 		if(pageLen < maxPage) {	
 			if(sPage < 1) {
 				sPage = 1;
-			} else if(sPage > maxPage - pageLen) {
-				sPage = maxPage - pageLen + 1;
+			} else if(sPage >= maxPage - pageLen) {
+				sPage = maxPage - pageLen;
 			}
 			
 			if(ePage > maxPage) {
 				ePage = maxPage;
-			} else if(ePage < pageLen) {
-				ePage = pageLen;
+			} else if(ePage <= pageLen) {
+				ePage = pageLen + 1;
 			}
 		} else {
 			sPage = 1;
