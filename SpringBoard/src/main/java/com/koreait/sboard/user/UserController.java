@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.koreait.sboard.common.Const;
 import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.AuthDTO;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
+import com.koreait.sboard.model.UserImgEntity;
 
 @Controller
 @RequestMapping("/user")
@@ -96,6 +96,12 @@ public class UserController {
 	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {
 		System.out.println("imgs : " + imgs.length);
 		return service.profileUpload(imgs, hs);
+	}
+	
+	@ResponseBody
+	@GetMapping("/profileImgList")
+	public List<UserImgEntity> profileImgList(UserEntity p) {
+		return service.selUserImgList(p);
 	}
 }
 

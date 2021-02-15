@@ -162,3 +162,44 @@ header ul li a:hover:not(.active) {
 }
 
 /**************** 모달창 [end] ************/
+
+
+
+/**************** 모달창 ver2 [start] ************/
+.modalContainer.hide {
+	display: none;
+}
+.modalContainer {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: #00000066;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modalContainer .modalContent {
+	width: 70%;
+	height: 60%;
+	background-color: #000;
+}
+/**************** 모달창 ver2 [end] ************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

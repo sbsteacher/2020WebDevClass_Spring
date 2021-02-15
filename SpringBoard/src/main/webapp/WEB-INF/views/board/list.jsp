@@ -65,16 +65,9 @@
 					<td>${item.favorite_cnt}</td>
 					<td>${item.r_dt}</td>
 					<td class="profile-td">
-						<c:if test="${item.profile_img == null}">
-							<div class="circular--landscape circular--size40">
-								<img id="profileImg" src="/res/img/basic_profile.jpg">
-							</div>				
-						</c:if>
-						<c:if test="${item.profile_img != null}">
-							<div class="circular--landscape circular--size40">
-								<img id="profileImg" src="/res/img/${item.i_user}/${item.profile_img}">
-							</div>
-						</c:if>
+						<div class="circular--landscape circular--size40">
+							<img id="profileImg" src="/res/img/user/${item.i_user}/${item.profile_img}" onerror="this.src='/res/img/basic_profile.jpg'">
+						</div>						
 						<span class="profile-td-nm">
 							<c:choose>
 								<c:when test="${param.searchType == 4 && param.searchText != ''}">

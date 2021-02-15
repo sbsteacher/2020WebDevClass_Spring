@@ -1,6 +1,7 @@
 package com.koreait.sboard.user;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -29,9 +30,18 @@ public class UserService {
 	
 	@Autowired
 	private FileUtils fUtils;
+	
+	@Autowired
+	private HttpSession hs;
 		
 	public UserEntity selUser(UserEntity p) {
 		return mapper.selUser(p);
+	}
+	
+	public List<UserImgEntity> selUserImgList(UserEntity p) {
+		int i_user = SecurityUtils.getLoingUserPk(hs);
+		p.setI_user(i_user);
+		return mapper.selUserImgList(p);
 	}
 	
 	//1:로그인성공, 2:아이디없음, 3:비밀번호틀림

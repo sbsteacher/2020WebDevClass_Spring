@@ -1,5 +1,7 @@
 package com.koreait.sboard.user;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.koreait.sboard.model.AuthEntity;
@@ -9,8 +11,9 @@ import com.koreait.sboard.model.UserImgEntity;
 @Mapper
 public interface UserMapper {
 	
-	UserEntity selUser(UserEntity p);
 	int insUser(UserEntity p);
+	UserEntity selUser(UserEntity p);
+	List<UserImgEntity> selUserImgList(UserEntity p);
 	int updUser(UserEntity p);
 	int insUserImg(UserImgEntity p);
 	
