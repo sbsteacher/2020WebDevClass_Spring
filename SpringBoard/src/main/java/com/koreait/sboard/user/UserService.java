@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.FileUtils;
 import com.koreait.sboard.common.MailUtils;
 import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.AuthDTO;
@@ -25,6 +26,9 @@ public class UserService {
 	
 	@Autowired
 	private MailUtils mailUtils;
+	
+	@Autowired
+	private FileUtils fUtils;
 		
 	public UserEntity selUser(UserEntity p) {
 		return mapper.selUser(p);
@@ -103,22 +107,23 @@ public class UserService {
 	//이미지 업로드
 	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {	
 		int i_user = SecurityUtils.getLoingUserPk(hs);
-		String basePath = hs.getServletContext().getRealPath("/resources/img/user/" + i_user + "/");
-		System.out.println("basePath : " + basePath);
+		if(i_user < 1 || imgs.length == 0) {
+			return 0;
+		}
 		
+		String folder = "/resources/img/user/" + i_user;		
+				
 		try {
 			for(int i=0; i<imgs.length; i++) {
 				MultipartFile file = imgs[i];
-				String fileNm = UUID.randomUUID().toString();
-				String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-				fileNm += "." + ext;
-				File target = new File(basePath + fileNm);
-				file.transferTo(target);
-				
+				String fileNm = fUtils.saveFile(file, folder);
+				if(fileNm == null) {
+					return 0;
+				}
 				if(i==0) { //메인 이미지 업데이트
 					UserEntity p = new UserEntity();
 					p.setI_user(i_user);
-					p.setProfile_img(fileNm);					
+					p.setProfile_img(fileNm);	
 					mapper.updUser(p);
 				}				
 				UserImgEntity p2 = new UserImgEntity();

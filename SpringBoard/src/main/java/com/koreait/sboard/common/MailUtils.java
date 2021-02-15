@@ -69,17 +69,6 @@ public class MailUtils {
 		}
 		return 1;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void setUserId(String userId) {
 		this.userId = userId;
