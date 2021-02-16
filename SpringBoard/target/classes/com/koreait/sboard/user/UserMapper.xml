@@ -28,11 +28,6 @@
 		</where>
 	</select>
 	
-	<select id="selUserImgList" resultType="UserImgEntity">
-		SELECT *
-		FROM t_user_img
-		WHERE i_user = #{i_user}
-	</select>
 	
 	<update id="updUser">
 		UPDATE t_user
@@ -52,6 +47,9 @@
 		</where>
 	</update>
 	
+	
+	<!--  /////////////////////// 프로필 이미지 ///// -->
+	
 	<insert id="insUserImg">
 		INSERT INTO t_user_img
 		(i_user, img)
@@ -59,6 +57,16 @@
 		(#{i_user}, #{img})
 	</insert>
 	
+	<select id="selUserImgList" resultType="UserImgEntity">
+		SELECT *
+		FROM t_user_img
+		WHERE i_user = #{i_user}
+	</select>
+	
+	<delete id="delUserImg">
+		DELETE FROM t_user_img
+		WHERE i_img = #{i_img} AND i_user = #{i_user}
+	</delete>
 	
 	<!--  /////////////////////// 비밀번호 찾기 ///// -->
 	<insert id="insAuth">

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
-<link rel="stylesheet" href="/res/css/user/profile.css">
+<link rel="stylesheet" href="/res/css/user/profile.css?ver=3">
     
 <div class="centerCont"></div>
 <div>

@@ -1,12 +1,7 @@
 package com.koreait.sboard.user;
 
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
-
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,6 +141,16 @@ public class UserService {
 			return 0;
 		}
 		return 1;
+	}
+	
+	public int delProfileImg(UserImgEntity p) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		int result = mapper.delUserImg(p);		
+		if(result == 1) { //실제 이미지 삭제!!
+			String path = "/img/user/" + p.getI_user() + "/" + p.getImg();
+			fUtils.delFile(path);
+		}
+		return result;
 	}
 }
 

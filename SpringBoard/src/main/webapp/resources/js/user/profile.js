@@ -19,7 +19,7 @@ function upload () {
 	}
 }
 
-
+var splide = null
 var centerContElem = document.querySelector('.centerCont')
 function getData () {
 	fetch('/user/profileData')
@@ -79,6 +79,7 @@ function clkProfile () {
 	getProfileImgList()
 }
 
+//프로필 이미지 리스트 가져오기
 function getProfileImgList () {
 	fetch('/user/profileImgList')
 	.then(res => res.json())
@@ -87,20 +88,54 @@ function getProfileImgList () {
 	})
 }
 
-function profileImgCarouselProc(myJson) {
-	console.log(myJson)
+//프로필 이미지 삭제
+function delProfileImg({i_img, img}) {
+	return new Promise(function(resolve) {
+		fetch(`/user/profileImg?i_img=${i_img}&img=${img}`, {
+			method: 'delete'
+		})
+		.then(res => res.json())
+		.then(myJson => {
+			resolve(myJson)
+		})	
+	})
+}
+
+function profileImgCarouselProc(myJson) {	
 	var splideList = document.querySelector('.splide__list')
+	splideList.innerHTML = null
 	myJson.forEach(function(item) {
-		var div = document.createElement('div')
+		const div = document.createElement('div')
 		div.classList.add('splide__slide')
-		var img = document.createElement('img')
 		
+		const img = document.createElement('img')		
 		img.src = `/res/img/user/${item.i_user}/${item.img}`
+		
+		const span = document.createElement('span')
+		span.classList.add('pointer')
+		span.append('X')
+		span.addEventListener('click', function() {
+			delProfileImg(item).then(myJson => {
+				if(myJson === 1) {
+					div.remove()
+					splide.refresh()
+				} else {
+					alert('삭제를 실패하였습니다')
+				}
+			})
+		})
+		
 		div.append(img)
+		div.append(span)
 		splideList.append(div)
 	})
 	
-	new Splide('.splide').mount()
+	if(splide != null) {		
+		splide.destroy(true)
+	}
+	
+	splide = new Splide('.splide').mount()
+	
 }
 
 function openModal () {	
@@ -110,6 +145,7 @@ function openModal () {
 function closeModal () {
 	modalContainerElem.classList.add('hide')
 }
+
 
 
 

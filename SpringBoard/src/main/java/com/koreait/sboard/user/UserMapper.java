@@ -11,11 +11,14 @@ import com.koreait.sboard.model.UserImgEntity;
 @Mapper
 public interface UserMapper {
 	
-	int insUser(UserEntity p);
-	UserEntity selUser(UserEntity p);
-	List<UserImgEntity> selUserImgList(UserEntity p);
+	int insUser(UserEntity p);	
+	UserEntity selUser(UserEntity p);	
 	int updUser(UserEntity p);
+	
+	/*--------------------- 프로필 이미지 ----- */
 	int insUserImg(UserImgEntity p);
+	List<UserImgEntity> selUserImgList(UserEntity p);
+	int delUserImg(UserImgEntity p);
 	
 	/*--------------------- 비밀번호 찾기 ----- */
 	int insAuth(AuthEntity p);

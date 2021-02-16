@@ -58,6 +58,15 @@ public class FileUtils {
 		
 		return fileNm;
 	}
+	
+	public boolean delFile(String path) {
+		String basePath = getBasePath("/resources");
+		File file = new File(basePath, path);
+		if(file.exists()) {
+			return file.delete();
+		}
+		return false;
+	}
 }
 
 
